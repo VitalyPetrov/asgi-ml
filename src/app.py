@@ -1,14 +1,21 @@
 from fastapi import FastAPI
 from .conf import settings
 
+from .routers import monitor
+
 
 __version__ = "0.1.0"
 
 
 app = FastAPI(
-    title="Simple ASGI ML service",
+    title="Simple ASGI ML SVC",
     openapi_prefix=settings.api_prefix,
     version=__version__,
 )
 
-# TODO: add routers and include them to the app
+
+app.include_router(
+    monitor.router,
+    prefix="",
+    responses={404: {"description": "Not found"}}
+)
