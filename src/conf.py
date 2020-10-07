@@ -4,7 +4,7 @@ from pydantic import validator, BaseSettings
 from dotenv import load_dotenv
 
 
-PROJECT_ROOT = Path(os.path.dirname(os.path.abspath(__file__)).parent)
+PROJECT_ROOT = Path(os.path.dirname(os.path.abspath(__file__))).parent
 load_dotenv()
 
 
