@@ -1,27 +1,20 @@
+import numpy as np
 from typing import Dict, List, Any
 from sklearn.datasets import load_iris
-from sklearn.ensemble.forest import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV, train_test_split
 
 
 class ForestIrisClassifier:
-    def __init__(self):
+    def __init__(self, hyperparams: Dict[str, Any]):
         self.features, self.target = load_iris(return_X_y=True)
-        self.model: RandomForestClassifier = None
+        self.model: RandomForestClassifier = RandomForestClassifier()
 
-        # TODO: replace with reading from a config
-        self._train(
-            params_grid={
-                "n_estimators": [150],
-                "max_depth": range(25, 30),
-                "min_samples_leaf": range(5, 10),
-                "criterion": ["gini", "entropy"],
-            }
-        )
+        self._train(hyperparams)
 
     def _train(self, params_grid: Dict[str, List]) -> None:
         self._split_data()
-        self.fit(params_grid)
+        self._fit(params_grid)
 
     def _split_data(self) -> None:
         (
@@ -33,7 +26,7 @@ class ForestIrisClassifier:
             self.features, self.target, stratify=self.target, test_size=0.2
         )
 
-    def fit(self, params_grid: Dict[str, List]) -> None:
+    def _fit(self, params_grid: Dict[str, List]) -> None:
         self.model = RandomForestClassifier(class_weight="balanced")
 
         estimators = GridSearchCV(
@@ -44,4 +37,5 @@ class ForestIrisClassifier:
         self.model = estimators.best_estimator_
 
     def predict(self, features: Dict[str, Any]) -> int:
-        return self.model.predict(list(features.values()))
+        features_2d = [list(features.values())]
+        return self.model.predict_proba(features_2d).argmax()
