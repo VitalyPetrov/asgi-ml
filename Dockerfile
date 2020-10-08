@@ -1,4 +1,3 @@
-# MAINTAINER 7pro
 FROM python:3.7-slim-buster
 
 ENV PROJECT_ROOT="/opt/asgi-ml/"
