@@ -13,7 +13,7 @@ def health_check(
         status=HealthStatus.status_pass,
         version=version.split(".", 1)[0],
         release_id=version,
-        description=slug
+        description=slug,
     )
     return Response(
         content=health.json(by_alias=True, skip_defaults=True),

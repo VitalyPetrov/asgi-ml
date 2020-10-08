@@ -1,7 +1,7 @@
 import enum
 from datetime import datetime
-from typing import Any, Dict, List, Optional
-from pydantic import AnyUrl, BaseModel, Field
+from typing import Optional
+from pydantic import BaseModel
 
 
 class HealthStatus(str, enum.Enum):
@@ -20,6 +20,6 @@ class Health(BaseModel):
         validate_assignment = True
         json_encoders = {
             datetime: lambda x: (
-                x.isoformat(timespec="milliseconds").replace("+00:00", 'Z')
+                x.isoformat(timespec="milliseconds").replace("+00:00", "Z")
             )
         }

@@ -14,8 +14,9 @@ app = FastAPI(
 )
 
 
+# Setup monitor and ml routes
 app.include_router(
-    monitor.router,
-    prefix="",
-    responses={404: {"description": "Not found"}}
+    monitor.router, prefix="", responses={404: {"description": "Not found"}}
 )
+# TODO: add some basic ML routes
+#
