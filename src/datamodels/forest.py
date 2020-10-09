@@ -14,3 +14,10 @@ class IrisClassificationResponse(BaseModel):
     @validator("create_dtm", always=True)
     def set_create_dtm(cls, value: datetime) -> datetime:
         return value or datetime.now()
+
+
+class IrisFeatures(BaseModel):
+    sepal_length: float = Field(..., ge=0.0)
+    sepal_width: float = Field(..., ge=0.0)
+    petal_length: float = Field(..., ge=0.0)
+    petal_width: float = Field(..., ge=0.0)

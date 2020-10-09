@@ -38,5 +38,5 @@ class ForestIrisClassifier:
         estimators.fit(self.features_train, self.target_train)
         self.model = estimators.best_estimator_
 
-    def predict(self, features_2d: List[Any]) -> int:
+    def predict(self, features_2d: List[List[Any]]) -> int:
         return self.model.predict_proba(features_2d)
