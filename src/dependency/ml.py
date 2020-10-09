@@ -31,7 +31,11 @@ def on_shutdown(app: FastAPI):
 class ML(State):
     def __init__(self, kwargs):
         super().__init__()
-        self.model = ForestIrisClassifier(**kwargs)
+        test_size = kwargs.pop('test_size')
+        self.model = ForestIrisClassifier(
+            test_size=test_size,
+            hyperparams=kwargs
+        )
 
     def classify(self, features: IrisFeatures):
         pass

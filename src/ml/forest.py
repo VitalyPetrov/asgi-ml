@@ -28,15 +28,13 @@ class ForestIrisClassifier:
             test_size=test_size,
         )
 
-    def _fit(self, params_grid: Dict[str, List]) -> None:
-        self.model = RandomForestClassifier(class_weight="balanced")
-
-        estimators = GridSearchCV(
-            estimator=self.model, param_grid=params_grid, cv=5, n_jobs=-1
+    def _fit(self, params_grid: Dict[str, Any]) -> None:
+        print(params_grid)
+        self.model = RandomForestClassifier(
+            class_weight="balanced", **params_grid
         )
 
-        estimators.fit(self.features_train, self.target_train)
-        self.model = estimators.best_estimator_
+        self.model.fit(self.features_train, self.target_train)
 
     def predict(self, features_2d: List[List[Any]]) -> int:
         return self.model.predict_proba(features_2d)
