@@ -1,6 +1,5 @@
 from fastapi import Request, FastAPI
 from starlette.datastructures import State
-from typing import Dict, Any
 
 from ..conf import MLSettings
 from ..ml.forest import ForestIrisClassifier

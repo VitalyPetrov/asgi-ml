@@ -19,11 +19,13 @@ class MLSettings(BaseSettings):
     def is_valid_loss(cls, value: str) -> str:
         if not isinstance(value, str):
             raise ValueError(
-                f"loss_function should have str type, got {type(value)} instead"
+                "loss_function should have str type"
+                f"got {type(value)} instead"
             )
         if value not in ("gini", "entropy"):
             raise ValueError(
-                "Wrong type of loss function. Can be one of ('gini', 'entropy')"
+                "Wrong type of loss function."
+                "Can be one of ('gini', 'entropy')"
             )
         return value
 

@@ -1,7 +1,7 @@
 from typing import Dict, List, Any
 from sklearn.datasets import load_iris
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.model_selection import train_test_split
 
 
 class ForestIrisClassifier:
