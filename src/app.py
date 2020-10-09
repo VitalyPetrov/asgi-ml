@@ -6,7 +6,7 @@ from .dependency import ml
 from .routers import monitor, forest
 
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 
 app = FastAPI(

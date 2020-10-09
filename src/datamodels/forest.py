@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, validator
 
 class IrisLabelProbability(BaseModel):
     id: int = Field(..., ge=0)
-    probability: float = Field(..., ge=0, lt=1.0)
+    probability: float = Field(..., ge=0, le=1.0)
 
 
 class IrisClassificationResponse(BaseModel):
