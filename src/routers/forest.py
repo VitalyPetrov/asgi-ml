@@ -7,7 +7,7 @@ from ..dependency.ml import ML, get_ml
 router = APIRouter()
 
 
-@router.post("/classigy-iris", response_model=List[IrisClassificationResponse])
+@router.post("/classify-iris", response_model=List[IrisClassificationResponse])
 async def classify_iris(
     sepal_length: float,
     sepal_width: float,
