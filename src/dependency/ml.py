@@ -4,7 +4,11 @@ from typing import Dict, Any
 
 from ..conf import MLSettings
 from ..ml.forest import ForestIrisClassifier
-from ..datamodels.forest import IrisFeatures
+from ..datamodels.forest import (
+    IrisFeatures,
+    IrisClassificationResponse,
+    IrisLabelProbability,
+)
 
 
 def get_ml(request: Request):
@@ -31,11 +35,19 @@ def on_shutdown(app: FastAPI):
 class ML(State):
     def __init__(self, kwargs):
         super().__init__()
-        test_size = kwargs.pop('test_size')
+        test_size = kwargs.pop("test_size")
         self.model = ForestIrisClassifier(
-            test_size=test_size,
-            hyperparams=kwargs
+            test_size=test_size, hyperparams=kwargs
         )
 
     def classify(self, features: IrisFeatures):
-        pass
+        scores = self.model.predict(features.get_2d_representation(features))
+
+        response = []
+        for idx, score in enumerate(scores):
+            label_probability = IrisLabelProbability(id=idx, probability=score)
+            response.append(
+                IrisClassificationResponse(label_probability=label_probability)
+            )
+
+        return response

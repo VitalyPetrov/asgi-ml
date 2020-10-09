@@ -29,12 +29,11 @@ class ForestIrisClassifier:
         )
 
     def _fit(self, params_grid: Dict[str, Any]) -> None:
-        print(params_grid)
         self.model = RandomForestClassifier(
             class_weight="balanced", **params_grid
         )
 
         self.model.fit(self.features_train, self.target_train)
 
-    def predict(self, features_2d: List[List[Any]]) -> int:
-        return self.model.predict_proba(features_2d)
+    def predict(self, features_2d: List[List[Any]]) -> List:
+        return self.model.predict_proba(features_2d)[0]

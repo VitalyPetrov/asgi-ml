@@ -50,4 +50,3 @@ async def shutdown():
             await corout
     except Exception as e:
         raise e
-
