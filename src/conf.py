@@ -8,6 +8,15 @@ PROJECT_ROOT = Path(os.path.dirname(os.path.abspath(__file__))).parent
 load_dotenv()
 
 
+class RedisSettings(BaseSettings):
+    host: str = ""
+    port: int = 6379
+    db: int = 0
+
+    class Config:
+        env_prefix = "APP_REDIS_"
+
+
 class MLSettings(BaseSettings):
     num_trees: int = os.getenv("APP_ML_NUM_TREES")
     max_depth: conint(ge=1) = os.getenv("APP_ML_MAX_DEPTH")
@@ -31,6 +40,7 @@ class MLSettings(BaseSettings):
 
 
 class Settings(BaseSettings):
+    redis: RedisSettings = RedisSettings()
     ml: MLSettings = MLSettings()
     api_prefix: str = os.getenv("APP_API_PREFIX")
 
