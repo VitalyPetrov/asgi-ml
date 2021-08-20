@@ -1,7 +1,8 @@
-FROM python:3.7-slim-buster
+FROM python:3.8-slim-buster
 
 ENV PROJECT_ROOT="/opt/asgi-ml/"
 ENV PYTHONPATH=${PYTHONPATH}:${PROJECT_ROOT}
+ENV PIP_TRUSTED_HOST="pypi.org"
 
 WORKDIR ${PROJECT_ROOT}
 
@@ -14,7 +15,7 @@ RUN apt-get update && \
         build-essential \
         libgomp1 \
         && \
-    pip3 --trusted-host pypi.org --no-cache-dir install -U -r requirements/base.txt && \
+    pip3 --no-cache-dir install -U -r requirements/base.txt && \
     apt-get autoremove -y \
         build-essential \
         && \
@@ -25,4 +26,4 @@ ADD . ./
 
 EXPOSE 8080
 
-CMD ["uvicorn", "--host", "0.0.0.0", "--port", "8080", "src.app:app"]
+CMD ["uvicorn", "--host", "0.0.0.0", "--port", "8080", "src.main:app"]
