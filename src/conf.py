@@ -1,11 +1,6 @@
 import os
-from pathlib import Path
+from datetime import timedelta
 from pydantic import validator, BaseSettings, confloat, conint
-from dotenv import load_dotenv
-
-
-PROJECT_ROOT = Path(os.path.dirname(os.path.abspath(__file__))).parent
-load_dotenv()
 
 
 class RedisSettings(BaseSettings):
@@ -42,6 +37,7 @@ class MLSettings(BaseSettings):
 class Settings(BaseSettings):
     redis: RedisSettings = RedisSettings()
     ml: MLSettings = MLSettings()
+    cache_ttl: int = int(timedelta(days=7).total_seconds())
     api_prefix: str = os.getenv("APP_API_PREFIX")
 
     @validator("api_prefix", pre=True)

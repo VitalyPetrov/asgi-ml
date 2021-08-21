@@ -4,6 +4,7 @@ from starlette.datastructures import State
 
 from src.conf import settings, MLSettings
 from src.ml.forest import ForestIrisClassifier
+from src.utils.build_key import build_hashkey
 from src.datamodels.forest import (
     IrisFeatures,
     IrisClassificationResponse,
@@ -18,10 +19,9 @@ aiocache.caches.add(
         "timeout": None,
         "endpoint": settings.redis.host,
         "port": settings.redis.port,
-        "password": settings.redis.password,
         "db": settings.redis.db,
         "serializer": {
-            "class": "aiocache.serializers.MsgPackSerializer",
+            "class": "aiocache.serializers.PickleSerializer",
             "encoding": None,
         },
     },
@@ -57,10 +57,13 @@ class ML(State):
             test_size=test_size, hyperparams=model_params
         )
 
-    def classify(self, features: IrisFeatures):
+    @aiocache.cached(
+        ttl=settings.cache_ttl, alias="asgi-ml", key_builder=build_hashkey
+    )
+    async def classify(self, features: IrisFeatures):
         scores = self.model.predict(features.get_2d_representation(features))
 
-        response = []
+        response = list()
         for idx, score in enumerate(scores):
             label_probability = IrisLabelProbability(id=idx, probability=score)
             response.append(

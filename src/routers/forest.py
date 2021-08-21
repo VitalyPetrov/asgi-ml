@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from typing import List
 
-from ..datamodels.forest import IrisClassificationResponse, IrisFeatures
-from ..dependency.ml import ML, get_ml
+from src.datamodels.forest import IrisClassificationResponse, IrisFeatures
+from src.dependency.ml import ML, get_ml
 
 router = APIRouter()
 
@@ -21,4 +21,4 @@ async def classify_iris(
         petal_length=petal_length,
         petal_width=petal_width,
     )
-    return ml.classify(features)
+    return await ml.classify(features)

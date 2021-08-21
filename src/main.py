@@ -1,12 +1,12 @@
 import asyncio
 from fastapi import FastAPI
-from .conf import settings
+from src.conf import settings
 
-from .dependency import ml
-from .routers import monitor, forest
+from src.dependency import ml
+from src.routers import monitor, forest
 
 
-__version__ = "0.1.1"
+__version__ = "1.0.0"
 
 
 app = FastAPI(
@@ -32,9 +32,9 @@ async def startup():
     app.state.settings = settings
 
     try:
-        corout = ml.on_startup(app)
-        if asyncio.iscoroutine(corout):
-            await corout
+        coroutine = ml.on_startup(app)
+        if asyncio.iscoroutine(coroutine):
+            await coroutine
     except Exception as e:
         try:
             await shutdown()
@@ -45,8 +45,8 @@ async def startup():
 @app.on_event("shutdown")
 async def shutdown():
     try:
-        corout = ml.on_shutdown(app)
-        if asyncio.iscoroutine(corout):
-            await corout
+        coroutine = ml.on_shutdown(app)
+        if asyncio.iscoroutine(coroutine):
+            await coroutine
     except Exception as e:
         raise e
