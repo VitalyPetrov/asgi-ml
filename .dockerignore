@@ -1,0 +1,10 @@
+# common files
+README.md
+LICENSE
+.gitignore
+docker-compose.yml
+Dockerfile
+
+# folders for image configuration
+env/
+.git/
