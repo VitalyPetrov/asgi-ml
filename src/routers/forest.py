@@ -21,4 +21,4 @@ async def classify_iris(
         petal_length=petal_length,
         petal_width=petal_width,
     )
-    return await ml.classify(features)
+    return await ml.classify(features=features)
