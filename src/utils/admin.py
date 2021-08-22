@@ -1,6 +1,6 @@
 import re
-from fastapi import Request
 
+from fastapi import Request
 
 SLUG_RE = re.compile(r"\W")
 

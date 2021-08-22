@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends
-from starlette.responses import Response
-from starlette_prometheus import metrics
-
 from src.datamodels.monitor import Health, HealthStatus
 from src.utils.admin import get_slug, get_version
+from starlette.responses import Response
+from starlette_prometheus import metrics
 
 
 def health_check(

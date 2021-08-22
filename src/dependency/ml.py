@@ -1,16 +1,11 @@
 import aiocache
-from fastapi import Request, FastAPI
-from starlette.datastructures import State
-
-from src.conf import settings, MLSettings
+from fastapi import FastAPI, Request
+from src.conf import MLSettings, settings
+from src.datamodels.forest import (IrisClassificationResponse, IrisFeatures,
+                                   IrisLabelProbability)
 from src.ml.forest import ForestIrisClassifier
 from src.utils.build_key import build_hashkey
-from src.datamodels.forest import (
-    IrisFeatures,
-    IrisClassificationResponse,
-    IrisLabelProbability,
-)
-
+from starlette.datastructures import State
 
 aiocache.caches.add(
     "asgi-ml",

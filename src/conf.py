@@ -1,6 +1,7 @@
 import os
 from datetime import timedelta
-from pydantic import validator, BaseSettings, confloat, conint
+
+from pydantic import BaseSettings, confloat, conint, validator
 
 
 class RedisSettings(BaseSettings):
