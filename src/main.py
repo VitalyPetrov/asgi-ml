@@ -1,6 +1,7 @@
 import asyncio
 
 from fastapi import FastAPI
+
 from src.conf import settings
 from src.dependency import ml
 from src.routers import forest, monitor
