@@ -2,25 +2,16 @@ FROM python:3.8-slim-buster
 
 ENV PROJECT_ROOT="/opt/asgi-ml/"
 ENV PYTHONPATH=${PYTHONPATH}:${PROJECT_ROOT}
-ENV PIP_TRUSTED_HOST="pypi.org"
 
 WORKDIR ${PROJECT_ROOT}
 
-# ARG PIP_INDEX_URL="http://pypi.org/simple"
 
-COPY requirements/* requirements/
+RUN pip install poetry
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        build-essential \
-        libgomp1 \
-        && \
-    pip3 --no-cache-dir install -U -r requirements/base.txt && \
-    apt-get autoremove -y \
-        build-essential \
-        && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm -rf /tmp/*
+COPY pyproject.toml poetry.lock ./
+RUN poetry config virtualenvs.create false \
+    && poetry install \
+    && poetry shell
 
 ADD . ./
 
