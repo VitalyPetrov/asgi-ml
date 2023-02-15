@@ -1,0 +1,19 @@
+version: '3'
+services:
+    redis:
+        image: redis:latest
+        healthcheck:
+            test: [ "CMD", "redis-cli", "ping" ]
+            interval: 5s
+            timeout: 30s
+            retries: 5
+        restart: always
+
+    backend:
+        image: asgi-ml:latest
+        ports:
+            - "8080:8080"
+        env_file:
+            - "env/values-dev.env"
+        depends_on:
+            - redis
