@@ -6,7 +6,7 @@ check-imports:
 
 
 check-format:
-	@flake8 --max-line-length 80 src
+	@flake8 src
 
 
 fix: fix-imports fix-format
@@ -17,4 +17,4 @@ fix-imports:
 
 
 fix-format:
-	@black -l 80 src
+	@black src
