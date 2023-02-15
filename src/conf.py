@@ -4,13 +4,23 @@ import logging
 from datetime import timedelta
 from typing import Literal
 
-from pydantic import BaseSettings, confloat, conint
+from pydantic import BaseSettings, confloat, conint, AnyUrl, root_validator
 
 
 class RedisSettings(BaseSettings):
-    host: str = ""
-    port: int = 6379
-    db: int = 0
+    host: str
+    port: int
+    db: conint(ge=0)
+    dsn: AnyUrl = None
+
+    @root_validator(skip_on_failure=True, allow_reuse=True)
+    def init_redis_dsn(cls, values):
+        return {
+            **values,
+            "dsn": (
+                f"redis://{values['host']}:{values['port']}/{values['db']}"
+            ),
+        }
 
     class Config:
         env_prefix = "APP_REDIS_"

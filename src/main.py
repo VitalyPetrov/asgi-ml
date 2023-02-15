@@ -68,7 +68,9 @@ async def http_exception_handler(
     )
 
 
-# Setup monitor and ml routes
+# Setup monitor routers
 app.include_router(
-    monitor.router, prefix="", responses={404: {"description": "Not found"}}
+    monitor.router,
+    tags=["monitoring"],
+    responses={404: {"description": "Not found"}},
 )
