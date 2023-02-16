@@ -22,7 +22,10 @@ services:
             - RABBITMQ_DEFAULT_USER=user
             - RABBITMQ_DEFAULT_PASS=pwd
 
-    backend:
+    app:
+        build:
+            context: ./app
+            dockerfile: app.Dockerfile
         image: asgi-ml:latest
         ports:
             - "8080:8080"
