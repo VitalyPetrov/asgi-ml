@@ -22,11 +22,20 @@ services:
             - RABBITMQ_DEFAULT_USER=user
             - RABBITMQ_DEFAULT_PASS=pwd
 
+    worker:
+        build:
+            context: ./worker
+            dockerfile: worker.Dockerfile
+        env_file:
+            - "env/values-dev.env"
+        depends_on:
+            - redis
+            - rabbitmq
+
     app:
         build:
             context: ./app
             dockerfile: app.Dockerfile
-        image: asgi-ml:latest
         ports:
             - "8080:8080"
         env_file:

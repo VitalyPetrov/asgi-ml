@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "asgi-ml-worker"
+version = "0.1.0"
+description = ""
+authors = ["VitalyPetrov <vitaliypetrov18@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "^1.5.3"
+celery = "^5.2.7"
+redis = "^4.5.1"
+pydantic = "^1.10.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

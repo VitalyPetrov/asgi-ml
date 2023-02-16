@@ -5,8 +5,10 @@ ENV PYTHONPATH=${PYTHONPATH}:${PROJECT_ROOT}
 
 WORKDIR ${PROJECT_ROOT}
 
-
-RUN pip install poetry
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    build-essential \
+    && pip install poetry
 
 COPY pyproject.toml poetry.lock ./
 RUN poetry config virtualenvs.create false \
