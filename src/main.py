@@ -7,7 +7,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 
 from src.conf import settings, logger
-from src.dependencies import base, redis
+from src.dependencies import base, redis, celery
 from src.routers import monitor
 
 
@@ -15,7 +15,7 @@ __version__ = "1.0.0"
 
 
 def setup_app(application: FastAPI) -> None:
-    dependencies = [base, redis]
+    dependencies = [base, redis, celery]
 
     @application.on_event("startup")
     async def startup():

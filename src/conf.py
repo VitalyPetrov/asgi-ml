@@ -38,7 +38,7 @@ class RabbitMQSettings(BaseSettings):
         return {
             **values,
             "uri": (
-                f"pyamqp://{values['user']}:{values['port']}"
+                f"pyamqp://{values['username']}:{values['password']}"
                 f"@{values['host']}:{values['port']}"
             ),
         }
@@ -60,6 +60,7 @@ class MLSettings(BaseSettings):
 
 class Settings(BaseSettings):
     redis: RedisSettings = RedisSettings()
+    rabbitmq: RabbitMQSettings = RabbitMQSettings()
     # ml: MLSettings = MLSettings()
     cache_ttl: int = int(timedelta(days=7).total_seconds())
     api_prefix: str = os.getenv("APP_API_PREFIX")
