@@ -26,6 +26,27 @@ class RedisSettings(BaseSettings):
         env_prefix = "APP_REDIS_"
 
 
+class RabbitMQSettings(BaseSettings):
+    host: str
+    port: int
+    username: str
+    password: str
+    uri: AnyUrl = None
+
+    @root_validator
+    def init_rabbitmq_uri(cls, values):
+        return {
+            **values,
+            "uri": (
+                f"pyamqp://{values['user']}:{values['port']}"
+                f"@{values['host']}:{values['port']}"
+            ),
+        }
+
+    class Config:
+        env_prefix = "APP_RABBITMQ_"
+
+
 class MLSettings(BaseSettings):
     num_trees: int
     max_depth: conint(ge=1)

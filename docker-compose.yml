@@ -9,6 +9,19 @@ services:
             retries: 5
         restart: always
 
+    rabbitmq:
+        image: rabbitmq:latest
+        healthcheck:
+            test: [ "CMD", "rabbitmq-diagnostics", "-q", "ping" ]
+            interval: 5s
+            timeout: 30s
+            retries: 5
+        ports:
+            - "5672:5672"
+        environment:
+            - RABBITMQ_DEFAULT_USER=user
+            - RABBITMQ_DEFAULT_PASS=pwd
+
     backend:
         image: asgi-ml:latest
         ports:
@@ -17,3 +30,4 @@ services:
             - "env/values-dev.env"
         depends_on:
             - redis
+            - rabbitmq
