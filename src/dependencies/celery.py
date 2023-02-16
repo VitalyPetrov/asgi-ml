@@ -22,4 +22,4 @@ async def on_startup(app: FastAPI) -> None:
 
 async def on_shutdown(app: FastAPI) -> None:
     logger.info("Celery dependency: shutdown")
-    await app.state.celery.close()
+    app.state.celery.close()
