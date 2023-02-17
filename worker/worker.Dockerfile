@@ -12,7 +12,11 @@ RUN apt-get update \
 
 COPY pyproject.toml poetry.lock ./
 RUN poetry config virtualenvs.create false \
-    && poetry install
+    && poetry install \
+    && apt-get autoremove -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/*
 
 ADD . ./
 

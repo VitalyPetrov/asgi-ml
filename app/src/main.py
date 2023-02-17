@@ -8,7 +8,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from src.conf import settings, logger
 from src.dependencies import base, redis, celery
-from src.routers import monitor
+from src.routers import monitor, scheduler
 
 
 __version__ = "1.0.0"
@@ -72,5 +72,11 @@ async def http_exception_handler(
 app.include_router(
     monitor.router,
     tags=["monitoring"],
+    responses={404: {"description": "Not found"}},
+)
+
+app.include_router(
+    scheduler.router,
+    tags=["main"],
     responses={404: {"description": "Not found"}},
 )
