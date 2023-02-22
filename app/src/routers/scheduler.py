@@ -21,7 +21,7 @@ async def create_task(
     celery_worker: Celery = Depends(get_celery),
 ) -> Task:
     task = celery_worker.send_task(
-        "score-flower", kwargs={"iris_features": list(features.dict().values())}
+        "score-flower", kwargs={"iris_features": features.values()}
     )
     return Task(task_id=task.id, dtm=datetime.now())
 
@@ -40,4 +40,12 @@ async def get_task_result(
     if not task.ready():
         return TaskResult()
 
-    return TaskResult(done=True, result=task.get())
+    probs = task.get()  # worker returns all classes probabilities
+
+    return TaskResult(
+        done=True,
+        result=[
+            IrisLabelProbability(id=idx, probability=prob)
+            for idx, prob in enumerate(probs)
+        ],
+    )

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 
 
 class IrisFeatures(BaseModel):
@@ -6,6 +6,9 @@ class IrisFeatures(BaseModel):
     sepal_width: float = Field(..., ge=0.0)
     petal_length: float = Field(..., ge=0.0)
     petal_width: float = Field(..., ge=0.0)
+
+    def values(self) -> list[float]:
+        return list(self.dict().values())
 
 
 class IrisLabelProbability(BaseModel):

@@ -1,10 +1,15 @@
-import os
 import sys
 import logging
-from datetime import timedelta
 from typing import Literal
 
-from pydantic import BaseSettings, confloat, conint, AnyUrl, root_validator
+from pydantic import (
+    BaseSettings,
+    confloat,
+    conint,
+    AnyUrl,
+    root_validator,
+    Field,
+)
 
 
 class RedisSettings(BaseSettings):
@@ -48,11 +53,11 @@ class RabbitMQSettings(BaseSettings):
 
 
 class MLSettings(BaseSettings):
-    num_trees: int
-    max_depth: conint(ge=1)
-    samples_on_leaf: conint(ge=1) = os.getenv("APP_ML_SAMPLES_ON_LEAF")
-    loss_function: Literal["gini", "entropy"]
-    test_size: confloat(gt=0.0, lt=1.0)
+    n_estimators: int = Field(default=100)
+    max_depth: int = Field(default=10, ge=1)
+    min_samples_leaf: int = Field(default=2, ge=1)
+    criterion: Literal["gini", "entropy"] = Field(default="entropy")
+    # test_size: confloat(gt=0.0, lt=1.0) = 0.1
 
     class Config:
         env_prefix = "APP_ML_"
@@ -61,7 +66,7 @@ class MLSettings(BaseSettings):
 class Settings(BaseSettings):
     redis: RedisSettings = RedisSettings()
     rabbitmq: RabbitMQSettings = RabbitMQSettings()
-    # ml: MLSettings = MLSettings()
+    ml: MLSettings = MLSettings()
 
 
 settings = Settings()
