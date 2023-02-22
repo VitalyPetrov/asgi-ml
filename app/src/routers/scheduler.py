@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends
 from celery import Celery
 from celery.result import AsyncResult
 
+from src.datamodels.forest import IrisFeatures, IrisLabelProbability
 from src.datamodels.task import Task, TaskResult
 from src.dependencies.celery import get_celery
 
@@ -16,11 +17,12 @@ router = APIRouter()
     response_model=Task,
 )
 async def create_task(
-    x: float,
-    y: float,
+    features: IrisFeatures,
     celery_worker: Celery = Depends(get_celery),
 ) -> Task:
-    task = celery_worker.send_task("dummy", (x, y))
+    task = celery_worker.send_task(
+        "score-flower", kwargs={"iris_features": list(features.dict().values())}
+    )
     return Task(task_id=task.id, dtm=datetime.now())
 
 
